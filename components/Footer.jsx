@@ -1,80 +1,166 @@
 import Link from "next/link";
 
 export default function Footer() {
-    return (
-        <footer id="footer" className="border-t  text-black bg-blue-100">
-            <div className="mx-auto max-w-7xl px-6 py-12 ">
-                <div className="grid gap-10 md:grid-cols-4">
+  return (
+    <footer className="border-t border-slate-200 bg-white text-slate-900">
+      <div className="mx-auto max-w-7xl px-6 py-12">
+        <div className="grid gap-10 md:grid-cols-4">
 
-                    {/* Logo / About */}
-                    <div>
-                        <Link href="/" className="text-2xl font-bold">
-                            MyApp
-                        </Link>
+          {/* Brand */}
+          <div>
+            <Link
+              href="/"
+              className="text-2xl font-bold tracking-tight text-slate-900"
+            >
+              Biai<span className="text-blue-600">.ai</span>
+            </Link>
 
-                        <p className="mt-4 text-sm text-gray-400">
-                            Building simple and powerful digital experiences.
-                        </p>
-                    </div>
+            <p className="mt-4 max-w-xs text-sm leading-6 text-slate-500">
+              An open-source AI-powered business intelligence platform that
+              turns business data into actionable insights.
+            </p>
 
-                    {/* Company */}
-                    <div>
-                        <h3 className="font-semibold">Company</h3>
+            <p className="mt-5 text-xs text-slate-400">
+              Built with Next.js, FastAPI, Supabase & AI.
+            </p>
+          </div>
 
-                        <div className="mt-4 flex flex-col gap-3 text-sm text-gray-400">
-                            <Link href="/about" className="hover:text-black">
-                                About
-                            </Link>
-                            <Link href="/services" className="hover:text-black">
-                                Services
-                            </Link>
-                            <a
-                                href="#footer"
-                                className="text-gray-600 hover:text-black"
-                            >
-                                Contact
-                            </a>
-                        </div>
-                    </div>
+          {/* Product */}
+          <div>
+            <h3 className="font-semibold text-slate-900">
+              Product
+            </h3>
 
-                    {/* Resources */}
-                    <div>
-                        <h3 className="font-semibold">Resources</h3>
+            <div className="mt-4 flex flex-col gap-3 text-sm text-slate-500">
+              <Link
+                href="/projects"
+                className="transition hover:text-blue-600"
+              >
+                Projects
+              </Link>
 
-                        <div className="mt-4 flex flex-col gap-3 text-sm text-gray-400">
-                            <Link href="/blog" className="hover:text-black">
-                                Blog
-                            </Link>
-                            <Link href="/faq" className="hover:text-black">
-                                FAQ
-                            </Link>
-                            <Link href="/help" className="hover:text-black">
-                                Help Center
-                            </Link>
-                        </div>
-                    </div>
+              <Link
+                href="/projects/new"
+                className="transition hover:text-blue-600"
+              >
+                Create Project
+              </Link>
 
-                    {/* Social */}
-                    <div>
-                        <h3 className="font-semibold">Follow Us</h3>
-
-                        <div className="mt-4 flex gap-4 text-sm text-gray-400">
-                            <a href="#" className="hover:text-black">
-                                Instagram
-                            </a>
-                            <a href="#" className="hover:text-black">
-                                LinkedIn
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
-
-                {/* Bottom */}
-                <div className="mt-12 border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
-                    © 2026 MyApp. All rights reserved.
-                </div>
+              <Link
+                href="/about"
+                className="transition hover:text-blue-600"
+              >
+                About
+              </Link>
             </div>
-        </footer>
-    );
+          </div>
+
+          {/* Open Source */}
+          <div>
+            <h3 className="font-semibold text-slate-900">
+              Open Source
+            </h3>
+
+            <div className="mt-4 flex flex-col gap-3 text-sm text-slate-500">
+              <a
+                href="https://github.com/hirdeshm/Biai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-blue-600"
+              >
+                GitHub Repository ↗
+              </a>
+
+              <a
+                href="https://github.com/hirdeshm/Biai/pulls"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-blue-600"
+              >
+                Contribute
+              </a>
+
+              <a
+                href="https://github.com/hirdeshm/Biai/issues"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-blue-600"
+              >
+                Report an Issue
+              </a>
+            </div>
+          </div>
+
+          {/* Community */}
+          <div>
+            <h3 className="font-semibold text-slate-900">
+              Community
+            </h3>
+
+            <div className="mt-4 flex flex-col gap-3 text-sm text-slate-500">
+              <a
+                href="https://github.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-blue-600"
+              >
+                Discussions
+              </a>
+
+              {/* <a
+                href="https://github.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-blue-600"
+              >
+                Documentation
+              </a> */}
+
+              <a
+                //href="mailto:hello@businessintelligence.ai"
+                className="transition hover:text-blue-600"
+              >
+                hirdeshfiles4444@gmail.com
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="mt-12 border-t border-slate-200 pt-6">
+          <div className="flex flex-col items-center justify-between gap-4 text-sm text-slate-500 md:flex-row">
+
+            <p>
+              Free For All | Open to code
+            </p>
+
+            <div className="flex items-center gap-5">
+              {/* <Link
+                href="/privacy"
+                className="transition hover:text-slate-900"
+              >
+                Privacy
+              </Link>
+
+              <Link
+                href="/terms"
+                className="transition hover:text-slate-900"
+              >
+                Terms
+              </Link> */}
+
+              <a
+                href="https://github.com/hirdeshm/Biai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-slate-700 transition hover:text-blue-600"
+              >
+                ⭐ Star on GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
 }

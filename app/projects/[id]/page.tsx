@@ -5,7 +5,6 @@ import { useParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 import QuantitativeDataUpload from "@/components/QuantitativeDataUpload";
-import DataCharts from "@/components/DataCharts";
 import AnalyzeData from "@/components/AnalyzeData";
 
 type Project = {
@@ -17,19 +16,49 @@ type Project = {
   industry: string;
 };
 
+type DataType =
+  | "sales"
+  | "customers"
+  | "products"
+  | "marketing"
+  | "web_analytics"
+  | "inventory";
+
+type Dataset = {
+  file: File;
+  result: any;
+};
+
 export default function ProjectPage() {
   const params = useParams();
 
   const [project, setProject] =
     useState<Project | null>(null);
 
-  const [uploadedFile, setUploadedFile] =
-    useState<File | null>(null);
+  /*
+   * Store every uploaded/analyzed dataset separately.
+   *
+   * Example:
+   *
+   * {
+   *   sales: {
+   *     file: sales.csv,
+   *     result: {...}
+   *   },
+   *
+   *   inventory: {
+   *     file: inventory.csv,
+   *     result: {...}
+   *   }
+   * }
+   */
+  const [datasets, setDatasets] =
+    useState<
+      Partial<Record<DataType, Dataset>>
+    >({});
 
-  const [dataType, setDataType] =
-    useState<string>("");
-
-
+  const [activeAnalysis, setActiveAnalysis] =
+    useState<DataType | null>(null);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -64,12 +93,86 @@ export default function ProjectPage() {
     );
   }
 
+  /*
+   * Called when a file is uploaded.
+   *
+   * We DO NOT analyze here.
+   *
+   * The Analyze button inside
+   * QuantitativeDataUpload handles analysis.
+   */
+  const handleUpload = (
+    file: File,
+    dataType: string
+  ) => {
+    const type = dataType as DataType;
+
+    setDatasets((previous) => ({
+      ...previous,
+
+      [type]: {
+        file,
+        result:
+          previous[type]?.result ?? null,
+      },
+    }));
+  };
+
+  /*
+   * Called when an individual dataset
+   * finishes analysis.
+   */
+  const handleAnalyze = (
+    dataType: string,
+    result: any
+  ) => {
+    const type = dataType as DataType;
+
+    setDatasets((previous) => {
+
+      const existing = previous[type];
+
+      if (!existing) {
+        return previous;
+      }
+
+      return {
+        ...previous,
+
+        [type]: {
+          ...existing,
+          result,
+        },
+      };
+    });
+
+    // Automatically show the newly analyzed dataset
+    setActiveAnalysis(type);
+  };
+
+  /*
+   * Count uploaded datasets
+   */
+  const connectedCount =
+    Object.keys(datasets).length;
+
+  /*
+   * Count analyzed datasets
+   */
+  const analyzedCount =
+    Object.values(datasets).filter(
+      (dataset) =>
+        dataset?.result?.success
+    ).length;
+
   return (
     <main className="min-h-screen bg-gray-50 px-6 py-12">
 
       <div className="mx-auto max-w-6xl">
 
-        {/* ================= PROJECT HEADER ================= */}
+        {/* ================================================== */}
+        {/* PROJECT HEADER */}
+        {/* ================================================== */}
 
         <section className="rounded-2xl bg-white p-8 shadow-sm">
 
@@ -101,7 +204,9 @@ export default function ProjectPage() {
 
           </div>
 
-          {/* Project Metadata */}
+          {/* ================================================== */}
+          {/* PROJECT METADATA */}
+          {/* ================================================== */}
 
           <div className="mt-8 grid gap-4 border-t pt-6 sm:grid-cols-2 lg:grid-cols-4">
 
@@ -154,56 +259,214 @@ export default function ProjectPage() {
 
         </section>
 
-        {/* ================= DATA LINK LAYER ================= */}
+
+        {/* ================================================== */}
+        {/* DATA LINK LAYER */}
+        {/* ================================================== */}
 
         <section className="mt-6 rounded-2xl bg-white p-6 shadow-sm">
 
           <div className="mb-6">
-            <h2 className="text-2xl font-semibold text-black">
-              Data Link Layer
-            </h2>
 
-            <p className="mt-1 text-sm text-gray-500">
-              Upload quantitative business data for analysis.
-            </p>
+            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+
+              <div>
+
+                <h2 className="text-2xl font-semibold text-black">
+                  Data Link Layer
+                </h2>
+
+            
+
+              </div>
+
+              {/* Connected Counter */}
+
+           
+
+            </div>
+
           </div>
 
-          {/* ================= UPLOAD ================= */}
+
+          {/* ================================================== */}
+          {/* UPLOAD COMPONENT */}
+          {/* ================================================== */}
 
           <QuantitativeDataUpload
-            onUpload={(uploadedFile, uploadedDataType) => {
-              setUploadedFile(uploadedFile);
-              setDataType(uploadedDataType);
-            }}
+            onUpload={handleUpload}
+            onAnalyze={handleAnalyze}
           />
 
-          {/* ================= CHARTS ================= */}
 
-          {uploadedFile && (
-            <DataCharts
-              file={uploadedFile}
-              analyze={false}
-            />
+          {/* ================================================== */}
+          {/* ANALYZED DATA SOURCES */}
+          {/* ================================================== */}
+
+          {analyzedCount > 0 && (
+
+            <div className="mt-8">
+
+              <div className="mb-5">
+
+                <h3 className="text-xl font-semibold text-gray-900">
+                  Analyzed Data Sources
+                </h3>
+
+                <p className="mt-1 text-sm text-gray-500">
+                  Select a data source to view its
+                  analysis and visualizations.
+                </p>
+
+              </div>
+
+
+              {/* ================================================== */}
+              {/* SOURCE TABS */}
+              {/* ================================================== */}
+
+              <div className="flex flex-wrap gap-2">
+
+                {Object.entries(datasets).map(
+                  ([type, dataset]) => {
+
+                    if (
+                      !dataset?.result
+                    ) {
+                      return null;
+                    }
+
+                    const dataType =
+                      type as DataType;
+
+                    const isActive =
+                      activeAnalysis ===
+                      dataType;
+
+                    return (
+                      <button
+                        key={type}
+                        type="button"
+                        onClick={() =>
+                          setActiveAnalysis(
+                            dataType
+                          )
+                        }
+                        className={`rounded-lg px-4 py-2.5 text-sm font-medium transition ${
+                          isActive
+                            ? "bg-purple-600 text-white"
+                            : "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+                        }`}
+                      >
+                        {getDataTypeName(
+                          dataType
+                        )}
+                      </button>
+                    );
+                  }
+                )}
+
+              </div>
+
+
+              {/* ================================================== */}
+              {/* ACTIVE ANALYSIS */}
+              {/* ================================================== */}
+
+              {activeAnalysis &&
+                datasets[
+                  activeAnalysis
+                ] && (
+
+                  <AnalyzeData
+                    file={
+                      datasets[
+                        activeAnalysis
+                      ]!.file
+                    }
+                    dataType={
+                      activeAnalysis
+                    }
+                    result={
+                      datasets[
+                        activeAnalysis
+                      ]!.result
+                    }
+                  />
+
+                )}
+
+            </div>
+
           )}
 
         </section>
 
 
-        {/* ================= AI ANALYSIS ================= */}
+        {/* ================================================== */}
+        {/* ANALYSIS STATUS */}
+        {/* ================================================== */}
 
-        {uploadedFile && (
-          <section className="mt-6 rounded-2xl bg-white p-6 shadow-sm">
+        <section className="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 
-            <AnalyzeData
-              file={uploadedFile}
-              dataType={dataType}
-            />
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
-          </section>
-        )}
+            <div>
+
+              <h3 className="text-lg font-semibold text-gray-900">
+                Analysis Status
+              </h3>
+
+              <p className="mt-1 text-sm text-gray-500">
+                {analyzedCount} of{" "}
+                {connectedCount} connected data
+                sources have been analyzed.
+              </p>
+
+            </div>
+
+            <div className="text-right">
+
+              <p className="text-2xl font-bold text-purple-600">
+                {analyzedCount} /{" "}
+                {connectedCount}
+              </p>
+
+              <p className="text-xs text-gray-500">
+                Sources Analyzed
+              </p>
+
+            </div>
+
+          </div>
+
+        </section>
 
       </div>
 
     </main>
   );
+}
+
+
+/* ============================================================
+   DATA TYPE DISPLAY NAME
+============================================================ */
+
+function getDataTypeName(
+  dataType: DataType
+) {
+  const names: Record<
+    DataType,
+    string
+  > = {
+    sales: "Sales",
+    customers: "Customers",
+    products: "Products",
+    marketing: "Marketing",
+    web_analytics: "Web Analytics",
+    inventory: "Inventory",
+  };
+
+  return names[dataType];
 }

@@ -75,7 +75,7 @@ export default function Navbar() {
           <Link href="/projects/new">New Project</Link>
           <Link href="/about">About</Link>
          
-          <a href="#footer">Contact</a>
+         
         </div>
 
         {/* User / Login */}
