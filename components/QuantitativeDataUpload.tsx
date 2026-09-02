@@ -442,7 +442,7 @@ export default function QuantitativeDataUpload({
       formData.append("data_type", dataType);
 
       const response = await fetch(
-        "http://127.0.0.1:8000/analyze",
+        `${process.env.NEXT_PUBLIC_API_URL}/analyze`,
         {
           method: "POST",
           body: formData,
@@ -543,7 +543,7 @@ export default function QuantitativeDataUpload({
     );
 
     const response = await fetch(
-      "http://127.0.0.1:8000/analyze-all",
+     `${process.env.NEXT_PUBLIC_API_URL}/analyze`,
       {
         method: "POST",
         headers: {
