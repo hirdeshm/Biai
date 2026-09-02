@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/client";
 import { BarChart3, Sparkles } from "lucide-react";
-
+import Image from "next/image";
 export default function Login() {
   const handleGoogleLogin = async () => {
     const supabase = createClient();
@@ -33,9 +33,12 @@ export default function Login() {
           
           {/* Logo */}
           <div className="mb-8 flex justify-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 shadow-lg shadow-blue-200">
-              <BarChart3 className="h-7 w-7 text-white" />
-            </div>
+            <Image
+                       src="/icon.png"
+                       alt="Logo"
+                       width={60}
+                       height={60}
+                     />
           </div>
 
           {/* Heading */}
@@ -50,7 +53,7 @@ export default function Login() {
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">
               Welcome to{" "}
               <span className="text-blue-600">
-                BusinessIntelligence.ai
+                Biai
               </span>
             </h1>
 
