@@ -2,7 +2,7 @@
 
 > **AI-powered KPI intelligence and business storytelling platform**
 
-BusinessIntelligence.ai transforms business data into meaningful insights, identifies important KPI movements, connects evidence across multiple data sources, highlights possible contributing factors, and recommends actionable next steps.
+BusinessIntelligence.ai (Biai) transforms business data into meaningful insights, identifies important KPI movements, connects evidence across multiple data sources, highlights possible contributing factors, and recommends actionable next steps.
 
 The platform is designed to answer:
 
@@ -42,7 +42,7 @@ The platform is designed to answer:
 
 # 🚀 Overview
 
-BusinessIntelligence.ai bridges the gap between traditional dashboards and AI-powered decision support.
+BusinessIntelligence.ai (Biai) bridges the gap between traditional dashboards and AI-powered decision support.
 
 Traditional BI tools are excellent at displaying revenue, sales, customers, marketing performance, website metrics, inventory, and KPIs. However, users often still need to manually determine:
 
@@ -52,7 +52,7 @@ Traditional BI tools are excellent at displaying revenue, sales, customers, mark
 - Are multiple data sources telling the same story?
 - What should the business investigate or do next?
 
-BusinessIntelligence.ai combines deterministic data analysis with LLM-based reasoning:
+BusinessIntelligence.ai (Biai) combines deterministic data analysis with LLM-based reasoning:
 
 ```text
 Business Data
