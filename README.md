@@ -1,5 +1,6 @@
 # BusinessIntelligence.ai
 
+[Visit (Biai) BusinessIntelligence.ai](https://biai-dqw9.vercel.app)
 > **AI-powered KPI intelligence and business storytelling platform**
 
 BusinessIntelligence.ai (Biai) transforms business data into meaningful insights, identifies important KPI movements, connects evidence across multiple data sources, highlights possible contributing factors, and recommends actionable next steps.
